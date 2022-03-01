@@ -11,7 +11,8 @@ func update_grid(rows):
 
 
 func _ready():
-	test()
+	pass
+	#test()
 
 
 func test():
