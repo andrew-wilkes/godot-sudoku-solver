@@ -18,7 +18,7 @@ func get_numbers():
 	for i in 9:
 		var row = []
 		for j in 9:
-			row.append(number_string[idx])
+			row.append(ord(number_string[idx]) - 48)
 			idx += 1
 		rows.append(row)
 	return rows
