@@ -9,3 +9,9 @@ anchor_bottom = 1.0
 script = ExtResource( 1 )
 
 [node name="GridView" parent="." instance=ExtResource( 2 )]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 449.0
+margin_top = 60.0
+margin_right = 489.0
+margin_bottom = 74.0

@@ -4,8 +4,8 @@ var puzzles
 
 func _ready():
 	randomize()
-	puzzles = numbers.split("\n")
-	test()
+	puzzles = numbers.strip_edges().split("\n")
+	#test()
 
 
 # Randomly pick one of the sets of numbers
