@@ -4,9 +4,7 @@ func update_grid(rows):
 	var idx = 0
 	for row in rows:
 		for number in row:
-			if number == 0:
-				number = ""
-			$Grid.get_child(idx).text = str(number)
+			$Grid.get_child(idx).text = "" if number == 0 else str(number)
 			idx += 1
 
 
