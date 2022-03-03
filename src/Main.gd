@@ -10,14 +10,29 @@ func _ready():
 			row.append(get_possible_numbers(i, j, grid))
 		possibles.append(row)
 	print(possibles[0])
+	var start = OS.get_system_time_msecs()
 	solve(0, -1, possibles, grid)
+	prints("Time:", OS.get_system_time_msecs() - start)
 	$GridView.update_grid(grid)
 
 
 func solve(row, col, possibles, grid):
 	if is_complete(grid):
 		return true
-	var rc = get_next_cell(row, col, grid)
+	# Find the next cell with the least number of possible values
+	var empty_cells = []
+	var cells = {}
+	while true:
+		var rc = get_next_cell(row, col, grid)
+		if empty_cells.has(rc):
+			break
+		empty_cells.append(rc)
+		row = rc[0]
+		col = rc[1]
+		var pvs = possibles[row][col]
+		cells[pvs.size()] = rc
+	# Got it
+	var rc = cells[cells.keys().min()]
 	row = rc[0]
 	col = rc[1]
 	var pvs = possibles[row][col]
