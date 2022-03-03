@@ -11,7 +11,7 @@ func _ready():
 # Randomly pick one of the sets of numbers
 # Return a 2D array representing the grid of numbers
 func get_numbers():
-	var pick = 0 #randi() % puzzles.size()
+	var pick = randi() % puzzles.size()
 	var number_string = puzzles[pick].replace(".", "0")
 	assert(number_string.length() == 81)
 	var rows = []

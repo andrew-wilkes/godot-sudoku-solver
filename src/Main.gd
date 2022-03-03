@@ -10,33 +10,24 @@ func _ready():
 			row.append(get_possible_numbers(i, j, grid))
 		possibles.append(row)
 	print(possibles[0])
-	var rc = [0, -1]
-	while true:
-		rc = get_next_cell(rc, grid)
-		if rc[0] == 9:
-			$Label.text = "FAILED"
-			break
-		if eliminate(rc[0], rc[1], possibles, grid):
-			break
+	solve(0, -1, possibles, grid)
 	$GridView.update_grid(grid)
 
 
-func eliminate(row, col, possibles, grid):
-	if is_complete(grid): return true
-	# Find a number from possible values to try
+func solve(row, col, possibles, grid):
+	if is_complete(grid):
+		return true
+	var rc = get_next_cell(row, col, grid)
+	row = rc[0]
+	col = rc[1]
 	var pvs = possibles[row][col]
 	for pv in pvs:
-		var poss = possibles.duplicate()
-		remove_from_peers(pv, row, col, poss)
 		grid[row][col] = pv
-		var rc = [0, -1]
-		while true:
-			rc = get_next_cell(rc, grid)
-			if rc[0] == 9:
-				break
-			if eliminate(rc[0], rc[1], poss, grid):
-				return true
-	grid[row][col] = 0
+		var poss = possibles.duplicate(true)
+		remove_from_peers(pv, row, col, poss)
+		if solve(row, col, poss, grid):
+			return true
+		grid[row][col] = 0
 	return false
 
 
@@ -72,16 +63,14 @@ func is_complete(grid):
 	return true
 
 
-func get_next_cell(rc, grid):
-	var row = rc[0]
-	var col = rc[1]
+func get_next_cell(row, col, grid):
 	while true:
 		col += 1
 		if col== 9:
 			col = 0
 			row += 1
 			if row == 9:
-				break
+				row = 0
 		if grid[row][col] == 0:
 			break
 	return [row, col]
@@ -140,9 +129,9 @@ func run_tests():
 	assert(ok_to_place(8, 1, 3, box))
 	assert(not ok_to_place(5, 1, 3, box))
 	assert(not ok_to_place(8, 1, 1, box))
-	assert(get_next_cell([0, 0], box) == [0, 3])
-	assert(get_next_cell([0, 8], box) == [1, 3])
-	#assert(get_next_cell([8, 8], box) == [0, 0])
+	assert(get_next_cell(0, 0, box) == [0, 3])
+	assert(get_next_cell(0, 8, box) == [1, 3])
+	assert(get_next_cell(8, 8, box) == [0, 0])
 	assert(is_complete([[1, 1], [1, 1]]))
 	assert(not is_complete([[1, 1], [0, 1]]))
 	var poss = [ [[0],[1],[3,4]], [[1,2,3],[1,2],[5]], [[0],[1],[3,6]] ]
