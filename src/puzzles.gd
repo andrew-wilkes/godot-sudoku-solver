@@ -31,6 +31,7 @@ func test():
 
 
 # Source: http://norvig.com/top95.txt
+# The first entry is an easy puzzle, the rest are deemed hard to solve
 var numbers = """
 .7..2..46.6....89.2..8..715.84.97...71.....59...13.48.697..2..8.58....6.43..8..7.
 4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......

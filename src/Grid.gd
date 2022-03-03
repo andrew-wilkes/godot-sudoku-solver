@@ -5,6 +5,7 @@ func _ready():
 	for n in 80:
 		add_child($sq1.duplicate(), true)
 	# Set number text
+	# This is just for testing the standalone scene
 	var idx = 0
 	for n in 3:
 		for y in 3:

@@ -11,8 +11,9 @@ func _ready():
 		possibles.append(row)
 	print(possibles[0])
 	var start = OS.get_system_time_msecs()
+	# Start solving where the initial cell to be tried will be 0,0
 	solve(0, -1, possibles, grid)
-	prints("Time:", OS.get_system_time_msecs() - start)
+	prints("Time:", OS.get_system_time_msecs() - start, "ms")
 	$GridView.update_grid(grid)
 
 
@@ -20,6 +21,7 @@ func solve(row, col, possibles, grid):
 	if is_complete(grid):
 		return true
 	# Find the next cell with the least number of possible values
+	# This speeds up the solution resolution by around 7 x
 	var empty_cells = []
 	var cells = {}
 	while true:
@@ -27,17 +29,20 @@ func solve(row, col, possibles, grid):
 		if empty_cells.has(rc):
 			break
 		empty_cells.append(rc)
+		# There is a big speed impact if we don't do this for the index values
 		row = rc[0]
 		col = rc[1]
 		var pvs = possibles[row][col]
 		cells[pvs.size()] = rc
-	# Got it
+	# Get it
 	var rc = cells[cells.keys().min()]
 	row = rc[0]
 	col = rc[1]
+	# There is no speed benefit to store this value that was previously got
 	var pvs = possibles[row][col]
 	for pv in pvs:
 		grid[row][col] = pv
+		# There is a possible performance optimization to be made here by using a string of numbers rather than an array
 		var poss = possibles.duplicate(true)
 		remove_from_peers(pv, row, col, poss)
 		if solve(row, col, poss, grid):
@@ -157,4 +162,3 @@ func run_tests():
 	box = [[[1,5,6],[2,4,5],[4,5,6]], [[1],[2],[3]], [[1],[2],[3]]]
 	remove_from_box(5, 2, 2, box)
 	assert(box[0] == [[1,6],[2,4],[4,6]])
-	
