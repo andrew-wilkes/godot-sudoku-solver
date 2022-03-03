@@ -10,23 +10,32 @@ func _ready():
 			row.append(get_possible_numbers(i, j, grid))
 		possibles.append(row)
 	print(possibles[0])
-	var rc = get_next_cell([0, 0], grid)
-	if not eliminate(rc[0], rc[1], possibles, grid):
-		$Label.text = "FAILED"
+	var rc = [0, -1]
+	while true:
+		rc = get_next_cell(rc, grid)
+		if rc[0] == 9:
+			$Label.text = "FAILED"
+			break
+		if eliminate(rc[0], rc[1], possibles, grid):
+			break
 	$GridView.update_grid(grid)
 
 
 func eliminate(row, col, possibles, grid):
 	if is_complete(grid): return true
-	var rc = get_next_cell([row, col], grid)
 	# Find a number from possible values to try
 	var pvs = possibles[row][col]
 	for pv in pvs:
 		var poss = possibles.duplicate()
 		remove_from_peers(pv, row, col, poss)
 		grid[row][col] = pv
-		if eliminate(rc[0], rc[1], poss, grid):
-			return true
+		var rc = [0, -1]
+		while true:
+			rc = get_next_cell(rc, grid)
+			if rc[0] == 9:
+				break
+			if eliminate(rc[0], rc[1], poss, grid):
+				return true
 	grid[row][col] = 0
 	return false
 
@@ -72,7 +81,7 @@ func get_next_cell(rc, grid):
 			col = 0
 			row += 1
 			if row == 9:
-				row = 0
+				break
 		if grid[row][col] == 0:
 			break
 	return [row, col]
@@ -133,6 +142,15 @@ func run_tests():
 	assert(not ok_to_place(8, 1, 1, box))
 	assert(get_next_cell([0, 0], box) == [0, 3])
 	assert(get_next_cell([0, 8], box) == [1, 3])
-	assert(get_next_cell([8, 8], box) == [0, 0])
+	#assert(get_next_cell([8, 8], box) == [0, 0])
 	assert(is_complete([[1, 1], [1, 1]]))
 	assert(not is_complete([[1, 1], [0, 1]]))
+	var poss = [ [[0],[1],[3,4]], [[1,2,3],[1,2],[5]], [[0],[1],[3,6]] ]
+	remove_from_row(1, 1, poss)
+	assert(poss[1] == [[2,3],[2],[5]])
+	remove_from_col(3, 2, poss)
+	assert(poss[0][2] == [4] and poss[2][2] == [6])
+	box = [[[1,5,6],[2,4,5],[4,5,6]], [[1],[2],[3]], [[1],[2],[3]]]
+	remove_from_box(5, 2, 2, box)
+	assert(box[0] == [[1,6],[2,4],[4,6]])
+	

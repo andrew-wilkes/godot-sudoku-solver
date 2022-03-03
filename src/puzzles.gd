@@ -11,7 +11,8 @@ func _ready():
 # Randomly pick one of the sets of numbers
 # Return a 2D array representing the grid of numbers
 func get_numbers():
-	var number_string = puzzles[randi() % puzzles.size()].replace(".", "0")
+	var pick = 0 #randi() % puzzles.size()
+	var number_string = puzzles[pick].replace(".", "0")
 	assert(number_string.length() == 81)
 	var rows = []
 	var idx = 0
@@ -31,6 +32,7 @@ func test():
 
 # Source: http://norvig.com/top95.txt
 var numbers = """
+.7..2..46.6....89.2..8..715.84.97...71.....59...13.48.697..2..8.58....6.43..8..7.
 4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......
 52...6.........7.13...........4..8..6......5...........418.........3..2...87.....
 6.....8.3.4.7.................5.4.7.3..2.....1.6.......2.....5.....8.6......1....
