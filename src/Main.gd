@@ -130,7 +130,10 @@ func in_box(n, row_index, col_index, grid):
 
 
 func ok_to_place(n, row_index, col_index, grid):
-	if grid[row_index][col_index] > 0 or in_row(n, row_index, grid) or in_col(n, col_index, grid) or in_box(n, row_index, col_index, grid):
+	if grid[row_index][col_index] > 0 \
+		or in_row(n, row_index, grid) \
+		or in_col(n, col_index, grid) \
+		or in_box(n, row_index, col_index, grid):
 		return false
 	else:
 		return true
