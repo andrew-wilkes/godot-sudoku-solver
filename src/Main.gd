@@ -2,9 +2,10 @@ extends Control
 
 var numbers
 var unsolved = true
+var tests = preload("res://tests.gd")
 
 func _ready():
-	run_tests()
+	tests.run(self)
 	init_grid()
 	OS.window_size = $VBox.rect_size
 
@@ -149,34 +150,6 @@ func ok_to_place(n, row_index, col_index, grid):
 		return false
 	else:
 		return true
-
-
-func run_tests():
-	var box = [[0,1,2,0,0,0,0,0,0],[3,4,5,0,0,0,0,0,0],[0,0,9,0,0,0,0,0,0]]
-	var row = [[0,1,0,0,5,0,9,2,3], [1,0,0,5,0,9,2,3,8]]
-	var col = [[1,2],[8,3],[4,5]]
-	assert(in_col(2, 1, col))
-	assert(not in_col(8, 1, col))
-	assert(in_row(9, 1, row))
-	assert(not in_row(7, 0, row))
-	assert(in_box(4, 2, 1, box))
-	assert(not in_box(8, 2, 0, box))
-	assert(ok_to_place(8, 1, 3, box))
-	assert(not ok_to_place(5, 1, 3, box))
-	assert(not ok_to_place(8, 1, 1, box))
-	assert(get_next_cell(0, 0, box) == [0, 3])
-	assert(get_next_cell(0, 8, box) == [1, 3])
-	assert(get_next_cell(8, 8, box) == [0, 0])
-	assert(is_complete([[1, 1], [1, 1]]))
-	assert(not is_complete([[1, 1], [0, 1]]))
-	var poss = [ [[0],[1],[3,4]], [[1,2,3],[1,2],[5]], [[0],[1],[3,6]] ]
-	remove_from_row(1, 1, poss)
-	assert(poss[1] == [[2,3],[2],[5]])
-	remove_from_col(3, 2, poss)
-	assert(poss[0][2] == [4] and poss[2][2] == [6])
-	box = [[[1,5,6],[2,4,5],[4,5,6]], [[1],[2],[3]], [[1],[2],[3]]]
-	remove_from_box(5, 2, 2, box)
-	assert(box[0] == [[1,6],[2,4],[4,6]])
 
 
 func _on_Solve_pressed():
