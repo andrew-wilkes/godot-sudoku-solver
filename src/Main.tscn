@@ -7,11 +7,33 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="GridView" parent="." instance=ExtResource( 2 )]
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="."]
-margin_left = 96.0
-margin_top = 253.0
-margin_right = 136.0
-margin_bottom = 267.0
+[node name="GridView" parent="VBox" instance=ExtResource( 2 )]
+margin_right = 46.0
+margin_bottom = 40.0
+
+[node name="Time" type="Label" parent="VBox"]
+margin_top = 60.0
+margin_right = 46.0
+margin_bottom = 74.0
+align = 1
+
+[node name="Solve" type="Button" parent="VBox"]
+margin_top = 94.0
+margin_right = 46.0
+margin_bottom = 134.0
+rect_min_size = Vector2( 0, 40 )
+text = "Solve"
+
+[connection signal="pressed" from="VBox/Solve" to="." method="_on_Solve_pressed"]

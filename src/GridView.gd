@@ -1,6 +1,6 @@
 extends MarginContainer
 
-func update_grid(rows):
+func update_grid(rows, fresh = true):
 	var idx = 0
 	for row in rows:
 		for number in row:
@@ -10,6 +10,7 @@ func update_grid(rows):
 				cell.modulate = Color.green
 			else:
 				cell.text = str(number)
+				if fresh: cell.modulate = Color.white
 			idx += 1
 
 

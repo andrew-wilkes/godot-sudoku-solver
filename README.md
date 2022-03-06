@@ -1,4 +1,6 @@
-# Godot Sudoku
+# Godot Sudoku Solver
+
+![Sudoku Solver](Screenshot.png)
 
 This small project aims to show how to write code to solve Sudoku puzzles using GDScript.
 

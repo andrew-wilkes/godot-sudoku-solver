@@ -1,21 +1,32 @@
 extends Control
 
+var numbers
+var unsolved = true
+
 func _ready():
 	run_tests()
-	var grid = Puzzles.get_numbers()
-	$GridView.update_grid(grid)
+	init_grid()
+	OS.window_size = $VBox.rect_size
+
+
+func init_grid():
+	numbers = Puzzles.get_numbers()
+	$VBox/GridView.update_grid(numbers)
+
+
+func run():
 	var possibles = []
 	for i in 9:
 		var row = []
 		for j in 9:
-			row.append(get_possible_numbers(i, j, grid))
+			row.append(get_possible_numbers(i, j, numbers))
 		possibles.append(row)
 	print(possibles[0])
 	var start = OS.get_system_time_msecs()
 	# Start solving where the initial cell to be tried will be 0,0
-	solve(0, -1, possibles, grid)
-	prints("Time:", OS.get_system_time_msecs() - start, "ms")
-	$GridView.update_grid(grid)
+	solve(0, -1, possibles, numbers)
+	$VBox/Time.text = "Time: " + str(OS.get_system_time_msecs() - start) + "ms"
+	$VBox/GridView.update_grid(numbers, false)
 
 
 func solve(row, col, possibles, grid):
@@ -166,3 +177,14 @@ func run_tests():
 	box = [[[1,5,6],[2,4,5],[4,5,6]], [[1],[2],[3]], [[1],[2],[3]]]
 	remove_from_box(5, 2, 2, box)
 	assert(box[0] == [[1,6],[2,4],[4,6]])
+
+
+func _on_Solve_pressed():
+	if unsolved:
+		$VBox/Solve.text = "Refresh"
+		run()
+	else:
+		$VBox/Solve.text = "Solve"
+		$VBox/Time.text = ""
+		init_grid()
+	unsolved = !unsolved
