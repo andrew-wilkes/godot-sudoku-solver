@@ -3,6 +3,7 @@ extends Control
 func _ready():
 	run_tests()
 	var grid = Puzzles.get_numbers()
+	$GridView.update_grid(grid)
 	var possibles = []
 	for i in 9:
 		var row = []

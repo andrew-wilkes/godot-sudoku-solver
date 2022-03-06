@@ -4,7 +4,12 @@ func update_grid(rows):
 	var idx = 0
 	for row in rows:
 		for number in row:
-			$Grid.get_child(idx).text = "" if number == 0 else str(number)
+			var cell = $Grid.get_child(idx)
+			if number == 0:
+				cell.text = ""
+				cell.modulate = Color.green
+			else:
+				cell.text = str(number)
 			idx += 1
 
 
